@@ -32,7 +32,7 @@ public class ThreadRunner implements TGS_CallableType1<Void, TS_ThreadSyncTrigge
         INCREMENTOR, DECREMENTOR
     };
 
-    public ThreadRunner(Semaphore semaphore, String threadName, TYPE type) {
+    private ThreadRunner(Semaphore semaphore, String threadName, TYPE type) {
         this.semaphore = semaphore;
         this.threadName = threadName;
         this.type = type;
@@ -40,6 +40,10 @@ public class ThreadRunner implements TGS_CallableType1<Void, TS_ThreadSyncTrigge
     final private Semaphore semaphore;
     final private String threadName;
     final private TYPE type;
+    
+    public static ThreadRunner of(Semaphore semaphore, String threadName, TYPE type){
+        return new ThreadRunner(semaphore, threadName, type);
+    }
 
     private void act(TYPE type) {
         IntStream.range(0, 5).sequential().forEach(i -> {

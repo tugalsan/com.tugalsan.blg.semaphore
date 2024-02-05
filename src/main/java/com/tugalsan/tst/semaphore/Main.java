@@ -17,10 +17,10 @@ public class Main {
         TGS_UnSafe.run(() -> {
             var semaphore = new Semaphore(1);
             var await = TS_ThreadAsyncAwait.callParallel(null, null,
-                    new ThreadRunner(semaphore, "incrementor0", ThreadRunner.TYPE.INCREMENTOR),
-                    new ThreadRunner(semaphore, "incrementor1", ThreadRunner.TYPE.INCREMENTOR),
-                    new ThreadRunner(semaphore, "decrementor0", ThreadRunner.TYPE.DECREMENTOR),
-                    new ThreadRunner(semaphore, "decrementor1", ThreadRunner.TYPE.DECREMENTOR)
+                    ThreadRunner.of(semaphore, "incrementor0", ThreadRunner.TYPE.INCREMENTOR),
+                    ThreadRunner.of(semaphore, "incrementor1", ThreadRunner.TYPE.INCREMENTOR),
+                    ThreadRunner.of(semaphore, "decrementor0", ThreadRunner.TYPE.DECREMENTOR),
+                    ThreadRunner.of(semaphore, "decrementor1", ThreadRunner.TYPE.DECREMENTOR)
             );
             System.out.println("await.hasError: " + await.hasError());
             System.out.println("count: " + Shared.count);
