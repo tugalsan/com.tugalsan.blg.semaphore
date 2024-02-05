@@ -15,12 +15,18 @@ public class Main {
     public static void main(String... s) {
         TGS_UnSafe.run(() -> {
             var semaphore = new Semaphore(1);
-            var incrementor = new DemoThread(semaphore, "A");
-            var decrementor = new DemoThread(semaphore, "B");
-            incrementor.start();
-            decrementor.start();
-            incrementor.join();
-            decrementor.join();
+            var incrementor0 = new DemoThread(semaphore,DemoThread.TYPE.INCREMENTOR, "incrementor0");
+            var incrementor1 = new DemoThread(semaphore, DemoThread.TYPE.INCREMENTOR, "incrementor1");
+            var decrementor0 = new DemoThread(semaphore, DemoThread.TYPE.DECREMENTOR, "decrementor0");
+            var decrementor1 = new DemoThread(semaphore, DemoThread.TYPE.DECREMENTOR, "decrementor1");
+            incrementor0.start();
+            incrementor1.start();
+            decrementor0.start();
+            decrementor1.start();
+            incrementor0.join();
+            incrementor1.join();
+            decrementor0.join();
+            decrementor1.join();
             System.out.println("count: " + Shared.count);
         }, e -> e.printStackTrace());
     }

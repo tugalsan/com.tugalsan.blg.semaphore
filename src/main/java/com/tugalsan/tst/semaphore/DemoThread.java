@@ -4,18 +4,24 @@ import java.util.concurrent.Semaphore;
 
 public class DemoThread extends Thread {
 
+    public static enum TYPE {
+        INCREMENTOR, DECREMENTOR
+    };
+
     Semaphore semaphore;
     String threadName;
+    TYPE type;
 
-    public DemoThread(Semaphore semaphore, String threadName) {
+    public DemoThread(Semaphore semaphore, TYPE type, String threadName) {
         super(threadName);
         this.semaphore = semaphore;
+        this.type = type;
         this.threadName = threadName;
     }
 
     @Override
     public void run() {
-        if (this.getName().equals("A")) {
+        if (this.type == TYPE.INCREMENTOR) {
             System.out.println("Starting thread " + threadName);
             try {
                 System.out.println(threadName + " is waiting for a permit.");
@@ -32,7 +38,7 @@ public class DemoThread extends Thread {
                 System.out.println("Thread " + threadName + " releases the permit.");
                 semaphore.release();
             }
-        } else {// run by thread B   
+        } else if (this.type == TYPE.DECREMENTOR) {  
             System.out.println("Starting thread " + threadName);
             try {
                 System.out.println("Thread " + threadName + " is waiting for a permit.");
