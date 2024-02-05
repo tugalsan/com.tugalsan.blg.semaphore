@@ -2,10 +2,7 @@ package com.tugalsan.tst.semaphore;
 
 import com.tugalsan.api.log.server.TS_Log;
 import com.tugalsan.api.thread.server.async.TS_ThreadAsyncAwait;
-import com.tugalsan.api.thread.server.sync.TS_ThreadSyncTrigger;
 import com.tugalsan.api.unsafe.client.TGS_UnSafe;
-import java.time.Duration;
-import java.util.concurrent.Semaphore;
 
 //https://www.javatpoint.com/java-semaphore
 public class Main {
@@ -25,7 +22,6 @@ public class Main {
             );
             d.cr("main", "await.hasError: %b".formatted(await.hasError()));
             d.cr("main", "count: %d".formatted(Common.MAX_SIMILTANEOUS_COUNT));
-        }, e -> e.printStackTrace());
+        }, e -> d.ce("main", e));
     }
-
 }
