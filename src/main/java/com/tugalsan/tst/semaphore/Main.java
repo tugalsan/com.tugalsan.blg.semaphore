@@ -1,6 +1,7 @@
 package com.tugalsan.tst.semaphore;
 
 import com.tugalsan.api.log.server.TS_Log;
+import com.tugalsan.api.thread.server.async.TS_ThreadAsyncAwait;
 import com.tugalsan.api.unsafe.client.TGS_UnSafe;
 import java.util.concurrent.Semaphore;
 
@@ -15,18 +16,13 @@ public class Main {
     public static void main(String... s) {
         TGS_UnSafe.run(() -> {
             var semaphore = new Semaphore(1);
-            var incrementor0 = new DemoThread(semaphore,DemoThread.TYPE.INCREMENTOR, "incrementor0");
-            var incrementor1 = new DemoThread(semaphore, DemoThread.TYPE.INCREMENTOR, "incrementor1");
-            var decrementor0 = new DemoThread(semaphore, DemoThread.TYPE.DECREMENTOR, "decrementor0");
-            var decrementor1 = new DemoThread(semaphore, DemoThread.TYPE.DECREMENTOR, "decrementor1");
-            incrementor0.start();
-            incrementor1.start();
-            decrementor0.start();
-            decrementor1.start();
-            incrementor0.join();
-            incrementor1.join();
-            decrementor0.join();
-            decrementor1.join();
+            var await = TS_ThreadAsyncAwait.callParallel(null, null,
+                    new ThreadRunner(semaphore, "incrementor0", ThreadRunner.TYPE.INCREMENTOR),
+                    new ThreadRunner(semaphore, "incrementor1", ThreadRunner.TYPE.INCREMENTOR),
+                    new ThreadRunner(semaphore, "decrementor0", ThreadRunner.TYPE.DECREMENTOR),
+                    new ThreadRunner(semaphore, "decrementor1", ThreadRunner.TYPE.DECREMENTOR)
+            );
+            System.out.println("await.hasError: " + await.hasError());
             System.out.println("count: " + Shared.count);
         }, e -> e.printStackTrace());
     }
