@@ -2,7 +2,9 @@ package com.tugalsan.tst.semaphore;
 
 import com.tugalsan.api.log.server.TS_Log;
 import com.tugalsan.api.thread.server.async.TS_ThreadAsyncAwait;
+import com.tugalsan.api.thread.server.sync.TS_ThreadSyncTrigger;
 import com.tugalsan.api.unsafe.client.TGS_UnSafe;
+import java.time.Duration;
 import java.util.concurrent.Semaphore;
 
 //https://www.javatpoint.com/java-semaphore
@@ -15,15 +17,14 @@ public class Main {
     //java -jar target/com.tugalsan.tst.semaphore-1.0-SNAPSHOT-jar-with-dependencies.jar
     public static void main(String... s) {
         TGS_UnSafe.run(() -> {
-            var semaphore = new Semaphore(1);
-            var await = TS_ThreadAsyncAwait.callParallel(null, null,
-                    ThreadRunner.of(semaphore, "incrementor0", ThreadRunner.TYPE.INCREMENTOR),
-                    ThreadRunner.of(semaphore, "incrementor1", ThreadRunner.TYPE.INCREMENTOR),
-                    ThreadRunner.of(semaphore, "decrementor0", ThreadRunner.TYPE.DECREMENTOR),
-                    ThreadRunner.of(semaphore, "decrementor1", ThreadRunner.TYPE.DECREMENTOR)
+            var await = TS_ThreadAsyncAwait.callParallel(Common.THEAD_KILLER, Common.UNTIL,
+                    ThreadRunner.of("incrementor0", ThreadRunner.TYPE.INCREMENTOR),
+                    ThreadRunner.of("incrementor1", ThreadRunner.TYPE.INCREMENTOR),
+                    ThreadRunner.of("decrementor0", ThreadRunner.TYPE.DECREMENTOR),
+                    ThreadRunner.of("decrementor1", ThreadRunner.TYPE.DECREMENTOR)
             );
-            System.out.println("await.hasError: " + await.hasError());
-            System.out.println("count: " + Shared.count);
+            d.cr("main", "await.hasError: %b".formatted(await.hasError()));
+            d.cr("main", "count: %d".formatted(Common.MAX_SIMILTANEOUS_COUNT));
         }, e -> e.printStackTrace());
     }
 
