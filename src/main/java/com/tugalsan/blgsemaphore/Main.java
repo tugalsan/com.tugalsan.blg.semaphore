@@ -1,4 +1,4 @@
-package com.tugalsan.tst.semaphore;
+package com.tugalsan.blgsemaphore;
 
 import com.tugalsan.api.log.server.TS_Log;
 import com.tugalsan.api.thread.server.async.TS_ThreadAsyncAwait;
@@ -21,7 +21,7 @@ public class Main {
                     ThreadRunner.of("decrementor1", ThreadRunner.TYPE.DECREMENTOR)
             );
             d.cr("main", "await.hasError: %b".formatted(await.hasError()));
-            d.cr("main", "count: %d".formatted(Common.MAX_SIMILTANEOUS_COUNT));
+            d.cr("main", "count: %d".formatted(Common.COUNT));
         }, e -> d.ce("main", e));
     }
 }

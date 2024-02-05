@@ -1,4 +1,4 @@
-module com.tugalsan.tst.semaphore {
+module com.tugalsan.blg.semaphore {
     requires com.tugalsan.api.log;
     requires com.tugalsan.api.runnable;
     requires com.tugalsan.api.callable;

@@ -1,4 +1,4 @@
-package com.tugalsan.tst.semaphore;
+package com.tugalsan.blgsemaphore;
 
 import com.tugalsan.api.callable.client.TGS_CallableType1;
 import com.tugalsan.api.log.server.TS_Log;
@@ -53,11 +53,11 @@ public class ThreadRunner implements TGS_CallableType1<Void, TS_ThreadSyncTrigge
             }
             TGS_UnSafe.run(() -> {
                 if (type == TYPE.INCREMENTOR) {
-                    Common.MAX_SIMILTANEOUS_COUNT++;
+                    Common.COUNT++;
                 } else if (type == TYPE.DECREMENTOR) {
-                    Common.MAX_SIMILTANEOUS_COUNT--;
+                    Common.COUNT--;
                 }
-                d.cr("act", "%s: %d".formatted(threadName, Common.MAX_SIMILTANEOUS_COUNT));
+                d.cr("act", "%s: %d".formatted(threadName, Common.COUNT));
                 TS_ThreadWait.of(threadName, Common.THEAD_KILLER, Common.WORK_LOAD);
             });
         });
