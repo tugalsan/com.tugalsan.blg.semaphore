@@ -9,9 +9,9 @@ import java.time.Duration;
 import java.util.concurrent.Semaphore;
 import java.util.stream.IntStream;
 
-public class Runner implements TGS_CallableType1<Void, TS_ThreadSyncTrigger> {
+public class Caller implements TGS_CallableType1<Void, TS_ThreadSyncTrigger> {
 
-    private static final TS_Log d = TS_Log.of(Runner.class);
+    private static final TS_Log d = TS_Log.of(Caller.class);
 
     @Override
     public Void call(TS_ThreadSyncTrigger threadKiller) {
@@ -33,15 +33,15 @@ public class Runner implements TGS_CallableType1<Void, TS_ThreadSyncTrigger> {
         return null;
     }
 
-    private Runner(String threadName, Semaphore threadLimitor) {
+    private Caller(String threadName, Semaphore threadLimitor) {
         this.threadName = threadName;
         this.threadLimitor = threadLimitor;
     }
     final private String threadName;
     final private Semaphore threadLimitor;
 
-    public static Runner of(String threadName, Semaphore threadLimitor) {
-        return new Runner(threadName, threadLimitor);
+    public static Caller of(String threadName, Semaphore threadLimitor) {
+        return new Caller(threadName, threadLimitor);
     }
 
     private void act(TS_ThreadSyncTrigger threadKiller/*, TYPE type*/) {
