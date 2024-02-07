@@ -52,7 +52,7 @@ public class Main {
             return new Caller(threadName);
         }
 
-        private void act(TS_ThreadSyncTrigger threadKiller/*, TYPE type*/) {
+        private void act(TS_ThreadSyncTrigger threadKiller) {
             IntStream.range(0, 5).sequential().forEach(i -> {
                 if (threadKiller.hasTriggered()) {
                     return;
