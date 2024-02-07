@@ -6,7 +6,6 @@ import com.tugalsan.api.thread.server.TS_ThreadWait;
 import com.tugalsan.api.thread.server.sync.TS_ThreadSyncTrigger;
 import com.tugalsan.api.unsafe.client.TGS_UnSafe;
 import java.time.Duration;
-import java.util.concurrent.Semaphore;
 import java.util.stream.IntStream;
 
 public class Caller implements TGS_CallableType1<Void, TS_ThreadSyncTrigger> {
@@ -15,33 +14,17 @@ public class Caller implements TGS_CallableType1<Void, TS_ThreadSyncTrigger> {
 
     @Override
     public Void call(TS_ThreadSyncTrigger threadKiller) {
-        if (threadKiller.hasTriggered()) {
-            return null;
-        }
-        TGS_UnSafe.run(() -> {
-            d.cr("call", "Starting thread %s".formatted(threadName));
-            d.cr("call", "%s is waiting for a permit.".formatted(threadName));
-            threadLimitor.acquire();
-            d.cr("call", "%s gets a permit.".formatted(threadName));
-            act(threadKiller/*, type*/);
-        }, e -> {
-            d.ct("call.%s".formatted(threadName), e);
-        }, () -> {
-            d.cr("call", "Thread %s releases the permit.".formatted(threadName));
-            threadLimitor.release();
-        });
+        act(threadKiller);
         return null;
     }
 
-    private Caller(String threadName, Semaphore threadLimitor) {
+    private Caller(String threadName) {
         this.threadName = threadName;
-        this.threadLimitor = threadLimitor;
     }
     final private String threadName;
-    final private Semaphore threadLimitor;
 
-    public static Caller of(String threadName, Semaphore threadLimitor) {
-        return new Caller(threadName, threadLimitor);
+    public static Caller of(String threadName) {
+        return new Caller(threadName);
     }
 
     private void act(TS_ThreadSyncTrigger threadKiller/*, TYPE type*/) {

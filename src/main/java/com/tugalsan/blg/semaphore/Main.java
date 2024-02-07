@@ -20,11 +20,11 @@ public class Main {
             var threadKiller = TS_ThreadSyncTrigger.of();//not used
             var threadLimitor = new Semaphore(2);
             var threadUntil = Duration.ofMinutes(5);//AN EXXECCESSIVE AMOUNT
-            var await = TS_ThreadAsyncAwait.callParallel(threadKiller, threadUntil,
-                    Caller.of("#1", threadLimitor),//Runner.of("incrementor0", Runner.TYPE.INCREMENTOR),
-                    Caller.of("#2", threadLimitor),//Runner.of("incrementor1", Runner.TYPE.INCREMENTOR),
-                    Caller.of("#3", threadLimitor),//Runner.of("decrementor0", Runner.TYPE.DECREMENTOR),
-                    Caller.of("#4", threadLimitor)//Runner.of("decrementor1", Runner.TYPE.DECREMENTOR)
+            var await = TS_ThreadAsyncAwait.callParallel(threadKiller, threadLimitor, threadUntil,
+                    Caller.of("#1"),
+                    Caller.of("#2"),
+                    Caller.of("#3"),
+                    Caller.of("#4")
             );
             d.cr("main", "await.hasError: %b".formatted(await.hasError()));
         }, e -> d.ce("main", e));
