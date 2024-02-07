@@ -19,15 +19,15 @@ public class Caller implements TGS_CallableType1<Void, TS_ThreadSyncTrigger> {
             return null;
         }
         TGS_UnSafe.run(() -> {
-            d.cr("run", "Starting thread %s".formatted(threadName));
-            d.cr("run", "%s is waiting for a permit.".formatted(threadName));
+            d.cr("call", "Starting thread %s".formatted(threadName));
+            d.cr("call", "%s is waiting for a permit.".formatted(threadName));
             threadLimitor.acquire();
-            d.cr("run", "%s gets a permit.".formatted(threadName));
+            d.cr("call", "%s gets a permit.".formatted(threadName));
             act(threadKiller/*, type*/);
         }, e -> {
-            d.ct("run.%s".formatted(threadName), e);
+            d.ct("call.%s".formatted(threadName), e);
         }, () -> {
-            d.cr("run", "Thread %s releases the permit.".formatted(threadName));
+            d.cr("call", "Thread %s releases the permit.".formatted(threadName));
             threadLimitor.release();
         });
         return null;

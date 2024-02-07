@@ -27,7 +27,6 @@ public class Main {
                     Caller.of("#4", threadLimitor)//Runner.of("decrementor1", Runner.TYPE.DECREMENTOR)
             );
             d.cr("main", "await.hasError: %b".formatted(await.hasError()));
-//            d.cr("main", "count: %d".formatted(Common.COUNT));
         }, e -> d.ce("main", e));
     }
 }
