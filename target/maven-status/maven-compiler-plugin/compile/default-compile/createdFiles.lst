@@ -1,5 +1,3 @@
-com\tugalsan\blgsemaphore\Main.class
-com\tugalsan\blgsemaphore\ThreadRunner$TYPE.class
-com\tugalsan\blgsemaphore\ThreadRunner.class
-com\tugalsan\blgsemaphore\Common.class
+com\tugalsan\blg\semaphore\Runner.class
 module-info.class
+com\tugalsan\blg\semaphore\Main.class
