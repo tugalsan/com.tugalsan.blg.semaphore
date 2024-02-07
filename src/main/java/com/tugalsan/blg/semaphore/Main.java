@@ -1,11 +1,14 @@
 package com.tugalsan.blg.semaphore;
 
+import com.tugalsan.api.callable.client.TGS_CallableType1;
 import com.tugalsan.api.log.server.TS_Log;
+import com.tugalsan.api.thread.server.TS_ThreadWait;
 import com.tugalsan.api.thread.server.async.TS_ThreadAsyncAwait;
 import com.tugalsan.api.thread.server.sync.TS_ThreadSyncTrigger;
 import com.tugalsan.api.unsafe.client.TGS_UnSafe;
 import java.time.Duration;
 import java.util.concurrent.Semaphore;
+import java.util.stream.IntStream;
 
 //https://www.javatpoint.com/java-semaphore
 public class Main {
@@ -17,7 +20,7 @@ public class Main {
     //java -jar target/com.tugalsan.tst.semaphore-1.0-SNAPSHOT-jar-with-dependencies.jar
     public static void main(String... s) {
         TGS_UnSafe.run(() -> {
-            var threadKiller = TS_ThreadSyncTrigger.of();//not used
+            var threadKiller = TS_ThreadSyncTrigger.of();//not used on this project
             var threadLimitor = new Semaphore(2);
             var threadUntil = Duration.ofMinutes(5);//AN EXXECCESSIVE AMOUNT
             var await = TS_ThreadAsyncAwait.callParallel(threadKiller, threadLimitor, threadUntil,
@@ -28,5 +31,38 @@ public class Main {
             );
             d.cr("main", "await.hasError: %b".formatted(await.hasError()));
         }, e -> d.ce("main", e));
+    }
+
+    public static class Caller implements TGS_CallableType1<Void, TS_ThreadSyncTrigger> {
+
+        private static final TS_Log d = TS_Log.of(Caller.class);
+
+        @Override
+        public Void call(TS_ThreadSyncTrigger threadKiller) {
+            act(threadKiller);
+            return null;
+        }
+
+        private Caller(String threadName) {
+            this.threadName = threadName;
+        }
+        final private String threadName;
+
+        public static Caller of(String threadName) {
+            return new Caller(threadName);
+        }
+
+        private void act(TS_ThreadSyncTrigger threadKiller/*, TYPE type*/) {
+            IntStream.range(0, 5).sequential().forEach(i -> {
+                if (threadKiller.hasTriggered()) {
+                    return;
+                }
+                TGS_UnSafe.run(() -> {
+                    d.cr("act", "%s: running...".formatted(threadName));
+                    TS_ThreadWait.of(threadName, threadKiller, WORK_LOAD);
+                });
+            });
+        }
+        final private static Duration WORK_LOAD = Duration.ofSeconds(1);//A SMALL AMOUNT
     }
 }
