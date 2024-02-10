@@ -18,16 +18,14 @@ public class Main {
     //java --enable-preview --add-modules jdk.incubator.vector -jar target/com.tugalsan.blg.semaphore-1.0-SNAPSHOT-jar-with-dependencies.jar
     //java -jar target/com.tugalsan.blg.semaphore-1.0-SNAPSHOT-jar-with-dependencies.jar
     public static void main(String... s) {
-        TGS_UnSafe.run(() -> {
-            var threadKiller = TS_ThreadSyncTrigger.of();//not used on this project
-            var threadRateLimit = 2;
-            var threadUntil = Duration.ofMinutes(5);//AN EXXECCESSIVE AMOUNT
-            var await = TS_ThreadAsyncAwait.callParallelRateLimited(threadKiller, threadRateLimit, threadUntil,
-                    Caller.of("#1"), Caller.of("#2"),
-                    Caller.of("#3"), Caller.of("#4")
-            );
-            d.cr("main", "await.hasError: %b".formatted(await.hasError()));
-        }, e -> d.ce("main", e));
+        var threadKiller = TS_ThreadSyncTrigger.of();//not used on this project
+        var threadRateLimit = 2;
+        var threadUntil = Duration.ofMinutes(5);//AN EXXECCESSIVE AMOUNT
+        var await = TS_ThreadAsyncAwait.callParallelRateLimited(threadKiller, threadRateLimit, threadUntil,
+                Caller.of("#1"), Caller.of("#2"),
+                Caller.of("#3"), Caller.of("#4")
+        );
+        d.cr("main", "await.hasError: %b".formatted(await.hasError()));
     }
 
     public static class Caller implements TGS_CallableType1<Void, TS_ThreadSyncTrigger> {
@@ -54,10 +52,8 @@ public class Main {
                 if (threadKiller.hasTriggered()) {
                     return;
                 }
-                TGS_UnSafe.run(() -> {
-                    d.cr("act", "%s: running...".formatted(threadName));
-                    TS_ThreadWait.of(threadName, threadKiller, WORK_LOAD);
-                });
+                d.cr("act", "%s: running...".formatted(threadName));
+                TS_ThreadWait.of(threadName, threadKiller, WORK_LOAD);
             });
         }
         final private static Duration WORK_LOAD = Duration.ofSeconds(1);//A SMALL AMOUNT
