@@ -1,6 +1,7 @@
 package com.tugalsan.blg.semaphore;
 
 import com.tugalsan.api.callable.client.TGS_CallableType1;
+import com.tugalsan.api.callable.client.TGS_CallableVoid;
 import com.tugalsan.api.log.server.TS_Log;
 import com.tugalsan.api.thread.server.TS_ThreadWait;
 import com.tugalsan.api.thread.server.async.TS_ThreadAsyncAwait;
@@ -34,7 +35,7 @@ public class Main {
         @Override
         public Void call(TS_ThreadSyncTrigger threadKiller) {
             act(threadKiller);
-            return null;
+            return TGS_CallableVoid.of();
         }
 
         private Caller(String threadName) {
