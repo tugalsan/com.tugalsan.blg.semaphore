@@ -1,0 +1,4 @@
+--patch-module
+com.tugalsan.blg.semaphore=_
+--add-reads
+com.tugalsan.blg.semaphore=ALL-UNNAMED
