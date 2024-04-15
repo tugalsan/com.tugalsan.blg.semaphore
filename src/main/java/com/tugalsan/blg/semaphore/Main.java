@@ -5,6 +5,7 @@ import com.tugalsan.api.log.server.TS_Log;
 import com.tugalsan.api.thread.server.TS_ThreadWait;
 import com.tugalsan.api.thread.server.async.TS_ThreadAsyncAwait;
 import com.tugalsan.api.thread.server.sync.TS_ThreadSyncTrigger;
+import com.tugalsan.api.union.client.TGS_UnionExcuse;
 import java.time.Duration;
 import java.util.stream.IntStream;
 
@@ -34,12 +35,12 @@ public class Main {
         await.resultsForSuccessfulOnes.forEach(result -> d.cr("main", result));
     }
 
-    public static class Caller implements TGS_CallableType1<Void, TS_ThreadSyncTrigger> {
+    public static class Caller implements TGS_CallableType1<TGS_UnionExcuse<Void>, TS_ThreadSyncTrigger> {
 
         private static final TS_Log d = TS_Log.of(Caller.class);
 
         @Override
-        public Void call(TS_ThreadSyncTrigger threadKiller) {
+        public TGS_UnionExcuse<Void> call(TS_ThreadSyncTrigger threadKiller) {
             act(threadKiller);
             return Void();
         }
