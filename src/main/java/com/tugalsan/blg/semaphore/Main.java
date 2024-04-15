@@ -24,7 +24,14 @@ public class Main {
                 Caller.of("#1"), Caller.of("#2"),
                 Caller.of("#3"), Caller.of("#4")
         );
-        d.cr("main", "await.hasError: %b".formatted(await.hasError()));
+        if (await.timeout()) {
+            d.ce("main", "timeout");
+            return;
+        }
+        if (await.hasError()) {
+            await.exceptions.forEach(e -> d.ct("main", e));
+        }
+        await.resultsForSuccessfulOnes.forEach(result -> d.cr("main", result));
     }
 
     public static class Caller implements TGS_CallableType1<Void, TS_ThreadSyncTrigger> {
