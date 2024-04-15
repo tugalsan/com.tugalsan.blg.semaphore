@@ -30,9 +30,9 @@ public class Main {
             return;
         }
         if (await.hasError()) {
-            await.exceptions.forEach(e -> d.ct("main", e));
+            await.exceptions.forEach(e -> d.ct("main.error", e));
         }
-        await.resultsForSuccessfulOnes.forEach(result -> d.cr("main", result));
+        await.resultsForSuccessfulOnes.forEach(result -> d.cr("main", "result", result));
     }
 
     public static class Caller implements TGS_CallableType1<TGS_UnionExcuse<Void>, TS_ThreadSyncTrigger> {
