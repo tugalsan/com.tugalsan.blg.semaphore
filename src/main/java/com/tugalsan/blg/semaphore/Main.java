@@ -1,6 +1,6 @@
 package com.tugalsan.blg.semaphore;
 
-import com.tugalsan.api.callable.client.TGS_CallableType1;
+import com.tugalsan.api.function.client.TGS_Func_OutTyped_In1;
 import com.tugalsan.api.log.server.TS_Log;
 import com.tugalsan.api.thread.server.TS_ThreadWait;
 import com.tugalsan.api.thread.server.async.TS_ThreadAsyncAwait;
@@ -35,7 +35,7 @@ public class Main {
         await.resultsForSuccessfulOnes.forEach(result -> d.cr("main", "result", result));
     }
 
-    public static class Caller implements TGS_CallableType1<TGS_UnionExcuse<Void>, TS_ThreadSyncTrigger> {
+    public static class Caller implements TGS_Func_OutTyped_In1<TGS_UnionExcuse<Void>, TS_ThreadSyncTrigger> {
 
         private static final TS_Log d = TS_Log.of(Caller.class);
 
