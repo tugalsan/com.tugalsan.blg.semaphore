@@ -1,10 +1,10 @@
 package com.tugalsan.blg.semaphore;
 
-import com.tugalsan.api.function.client.TGS_Func_OutTyped_In1;
+import com.tugalsan.api.function.client.maythrow.uncheckedexceptions.TGS_FuncMTUCE_OutTyped_In1;
 import com.tugalsan.api.log.server.TS_Log;
-import com.tugalsan.api.thread.server.TS_ThreadWait;
-import com.tugalsan.api.thread.server.async.TS_ThreadAsyncAwait;
+import com.tugalsan.api.thread.server.async.await.TS_ThreadAsyncAwait;
 import com.tugalsan.api.thread.server.sync.TS_ThreadSyncTrigger;
+import com.tugalsan.api.thread.server.sync.TS_ThreadSyncWait;
 import com.tugalsan.api.union.client.TGS_UnionExcuse;
 import java.time.Duration;
 import java.util.stream.IntStream;
@@ -18,7 +18,7 @@ public class Main {
     //java --enable-preview --add-modules jdk.incubator.vector -jar target/com.tugalsan.blg.semaphore-1.0-SNAPSHOT-jar-with-dependencies.jar
     //java -jar target/com.tugalsan.blg.semaphore-1.0-SNAPSHOT-jar-with-dependencies.jar
     public static void main(String... s) {
-        var threadKiller = TS_ThreadSyncTrigger.of();//not used on this project
+        var threadKiller = TS_ThreadSyncTrigger.of("main");//not used on this project
         var threadRateLimit = 2;
         var threadUntil = Duration.ofMinutes(5);//AN EXXECCESSIVE AMOUNT
         var await = TS_ThreadAsyncAwait.callParallelRateLimited(threadKiller, threadRateLimit, threadUntil,
@@ -35,7 +35,7 @@ public class Main {
         await.resultsForSuccessfulOnes.forEach(result -> d.cr("main", "result", result));
     }
 
-    public static class Caller implements TGS_Func_OutTyped_In1<TGS_UnionExcuse<Void>, TS_ThreadSyncTrigger> {
+    public static class Caller implements TGS_FuncMTUCE_OutTyped_In1<TGS_UnionExcuse<Void>, TS_ThreadSyncTrigger> {
 
         private static final TS_Log d = TS_Log.of(Caller.class);
 
@@ -60,7 +60,7 @@ public class Main {
                     return;
                 }
                 d.cr("act", "%s: running...".formatted(threadName));
-                TS_ThreadWait.of(threadName, threadKiller, WORK_LOAD);
+                TS_ThreadSyncWait.of(threadName, threadKiller, WORK_LOAD);
             });
         }
         final private static Duration WORK_LOAD = Duration.ofSeconds(1);//A SMALL AMOUNT
