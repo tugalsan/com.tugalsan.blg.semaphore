@@ -21,7 +21,7 @@ public class Main {
         var threadKiller = TS_ThreadSyncTrigger.of("main");//not used on this project
         var threadRateLimit = 2;
         var threadUntil = Duration.ofMinutes(5);//AN EXXECCESSIVE AMOUNT
-        var await = TS_ThreadAsyncAwait.callParallelRateLimited(threadKiller, threadRateLimit, threadUntil,
+        var await = TS_ThreadAsyncAwait.callParallelRateLimited(threadKiller.newChild(d.className), threadRateLimit, threadUntil,
                 Caller.of("#1"), Caller.of("#2"),
                 Caller.of("#3"), Caller.of("#4")
         );
