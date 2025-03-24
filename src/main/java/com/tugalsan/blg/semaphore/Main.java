@@ -1,6 +1,6 @@
 package com.tugalsan.blg.semaphore;
 
-import com.tugalsan.api.function.client.maythrow.uncheckedexceptions.TGS_FuncMTUCE_OutTyped_In1;
+import com.tugalsan.api.function.client.maythrowexceptions.unchecked.TGS_FuncMTU_OutTyped_In1;
 import com.tugalsan.api.log.server.TS_Log;
 import com.tugalsan.api.thread.server.async.await.TS_ThreadAsyncAwait;
 import com.tugalsan.api.thread.server.sync.TS_ThreadSyncTrigger;
@@ -35,7 +35,7 @@ public class Main {
         await.resultsForSuccessfulOnes.forEach(result -> d.cr("main", "result", result));
     }
 
-    public static class Caller implements TGS_FuncMTUCE_OutTyped_In1<TGS_UnionExcuse<Void>, TS_ThreadSyncTrigger> {
+    public static class Caller implements TGS_FuncMTU_OutTyped_In1<TGS_UnionExcuse<Void>, TS_ThreadSyncTrigger> {
 
         private static final TS_Log d = TS_Log.of(Caller.class);
 
